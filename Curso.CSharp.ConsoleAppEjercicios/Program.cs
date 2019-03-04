@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Curso.CSharp.ConsoleAppEjercicios
     {
         static void Main(string[] args)
         {
-            Interfaces.Ejercicio1();
+            Objetos.Ejercicio1();
 
             Console.ReadKey();
         }
@@ -129,7 +130,6 @@ namespace Curso.CSharp.ConsoleAppEjercicios
 
         }
     }
-
     public static class Repeticion
     {
         //Pinta los número paras del 50 al 150
@@ -182,7 +182,270 @@ namespace Curso.CSharp.ConsoleAppEjercicios
         //Implementa el método para la IVehiculo en cada uno de los objetos.
         public static void Ejercicio1()
         {
+            IVehiculo vehiculo = new Coche() { Velocidad = "240km/h", Color = "Azul", Marca = "Audi", Ruedas = 4 };
+            IVehiculo vehiculo1 = new Barco() { Velocidad = "240km/h", Color = "Azul", Marca = "Audi", Cubiertas = 2 };
+            IVehiculo vehiculo2 = new Avion() { Velocidad = "240km/h", Color = "Azul", Marca = "Audi", Motores = 2 };
 
+            Coche coche = new Coche() { Velocidad = "240km/h", Color = "Azul", Marca = "Audi", Ruedas = 4 };
+            Barco barco = new Barco() { Velocidad = "240km/h", Color = "Azul", Marca = "Audi", Cubiertas = 2 };
+            Avion avion = new Avion() { Velocidad = "240km/h", Color = "Azul", Marca = "Audi", Motores = 2 };
+
+            vehiculo.PintarDatos();
+            vehiculo1.PintarDatos();
+            vehiculo2.PintarDatos();
+
+            coche.PintarDatos();
+            barco.PintarDatos();
+            avion.PintarDatos();
         }
     }
+    public interface IVehiculo
+    {
+        string Velocidad { get; set; }
+        string Color { get; set; }
+        string Marca { get; set; }
+        void PintarDatos();
+    }
+    public class Coche : IVehiculo
+    {
+        public string Velocidad { get; set; }
+        public string Color { get; set; }
+        public string Marca { get; set; }
+        public int Ruedas { get; set; }
+
+        public void PintarDatos()
+        {
+            Console.WriteLine("FICHA DEL COCHE");
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Velocidad: {0}", Velocidad);
+            Console.WriteLine("Color: {0}", Color);
+            Console.WriteLine("Marca: {0}", Marca);
+            Console.WriteLine("Ruedas: {0}", Ruedas);
+        }
+
+        void IVehiculo.PintarDatos()
+        {
+            Console.WriteLine("FICHA DEL VEHICULO (COCHE)");
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Velocidad: {0}", Velocidad);
+            Console.WriteLine("Color: {0}", Color);
+            Console.WriteLine("Marca: {0}", Marca);
+            Console.WriteLine("Ruedas: {0}", Ruedas);
+        }
+    }
+    public class Barco : IVehiculo
+    {
+        public string Velocidad { get; set; }
+        public string Color { get; set; }
+        public string Marca { get; set; }
+        public int Cubiertas { get; set; }
+
+        public void PintarDatos()
+        {
+            Console.WriteLine("FICHA DEL BARCO");
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Velocidad: {0}", Velocidad);
+            Console.WriteLine("Color: {0}", Color);
+            Console.WriteLine("Marca: {0}", Marca);
+            Console.WriteLine("Cubiertas: {0}", Cubiertas);
+        }
+
+        void IVehiculo.PintarDatos()
+        {
+            Console.WriteLine("FICHA DEL VEHICULO (BARCO)");
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Velocidad: {0}", Velocidad);
+            Console.WriteLine("Color: {0}", Color);
+            Console.WriteLine("Marca: {0}", Marca);
+            Console.WriteLine("Cubiertas: {0}", Cubiertas);
+        }
+    }
+    public class Avion : IVehiculo
+    {
+        public string Velocidad { get; set; }
+        public string Color { get; set; }
+        public string Marca { get; set; }
+        public int Motores { get; set; }
+
+        public void PintarDatos()
+        {
+            Console.WriteLine("FICHA DEL AVIÓN");
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Velocidad: {0}", Velocidad);
+            Console.WriteLine("Color: {0}", Color);
+            Console.WriteLine("Marca: {0}", Marca);
+            Console.WriteLine("Motores: {0}", Motores);
+        }
+
+        void IVehiculo.PintarDatos()
+        {
+            Console.WriteLine("FICHA DEL VEHICULO (AVIÓN)");
+            Console.WriteLine("===================================================");
+            Console.WriteLine("Velocidad: {0}", Velocidad);
+            Console.WriteLine("Color: {0}", Color);
+            Console.WriteLine("Marca: {0}", Marca);
+            Console.WriteLine("Motores: {0}", Motores);
+        }
+    }
+
+
+    public static class Herencia
+    {
+        //Creamos un nuevo Objeto que hereda de ArrayList
+        //Sobreescribimos y sellamo ToString() para que retorne en número de elementos
+        //Sobreescribimos el método Add() para añadir siempre en la posición 0
+        public static void Ejercicio1()
+        {
+            MiArrayList array = new MiArrayList();
+
+            array.Add("uno");
+            array.Add("dos");
+            array.Add("tres");
+            array.Add("cuatro");
+            array.Add("cinco");
+
+            foreach (var item in array)
+            {
+                Console.WriteLine(">> {0}", item);
+            }
+
+            Console.WriteLine(array.ToString());
+        }
+    }
+    public class MiArrayList : ArrayList
+    {
+        public override int Add(object value)
+        {
+            base.Add("");
+            for (var i = this.Count - 1; i > 0; i--)
+            {
+                this[i] = (string)this[i - 1];
+            }
+            this[0] = value;
+
+            return 0;
+        }
+
+        public sealed override string ToString()
+        {
+            return "Numero de elementos " + this.Count.ToString("N0") + ".";
+        }
+    }
+
+
+    public static class Objetos
+    {
+        public static void Ejercicio1()
+        {
+            Info info = new Info();
+            //info.Procesar<int>(40);
+            //info.Procesar<decimal>(400.5451538347M);
+            //info.Procesar<string>("458151.12145");
+            //info.Procesar<string>("hola");
+            //info.Procesar<string>("Cantidad1458252");
+            //info.Procesar<string>("145; 82; 52; 1458; 145.652");
+            //info.Procesar<List<string>>(new List<string>() { "hola", "32", "1452" });
+            //info.Procesar<List<int>>(new List<int>() { 30, 7841, 0, 51, 32, 5411 });
+
+            Console.WriteLine("Suma {0}", info.Valor);
+            Console.WriteLine("Entero {0}", info.Entero);
+            Console.WriteLine("Decimal {0}", info.Decimal);
+            Console.WriteLine("Max {0}", info.Max);
+            Console.WriteLine("Min {0}", info.Min);
+            Console.WriteLine("Media {0}", info.Media);
+            Console.WriteLine("Elementos {0}", info.ElementosProcesados);
+        }
+    }
+
+
+    public static class ExtesionMetodos
+    {
+        public static decimal ParteEntera(this decimal valor)
+        {
+            return Math.Truncate(valor);
+        }
+        public static decimal ParteDecimal(this decimal valor)
+        {
+            return (valor - Math.Truncate(valor));
+        }
+        public static decimal ConvertDecimal(this string contenido)
+        {
+            decimal valor = 0;
+            string numeros = "";
+
+            foreach (var chr in contenido.ToCharArray())
+            {
+                if ("0123456789".Contains(chr.ToString())) numeros += chr.ToString();
+            }
+
+            if (decimal.TryParse(numeros, out valor)) return valor;
+            else return 0;
+        }
+    }
+
+    public class Info
+    {
+        //Equivalente a la suma de todos los elementos
+        public decimal Valor { get; set; } 
+
+        public decimal Entero { get; set; }
+        public decimal Decimal { get; set; }
+
+        public decimal Min { get; set; }
+        public decimal Max { get; set; }
+        public decimal Media { get; set; }
+        public int ElementosProcesados { get; set; }
+
+        public bool Procesar<T>(T obj)
+        {
+            if (obj.GetType().Namespace == "System.Collections"
+                || obj.GetType().Namespace == "System.Collections.Generic")
+            {
+                IEnumerable array = obj as IEnumerable;
+
+                if (array != null)
+                {
+                    List<decimal> lista = new List<decimal>();
+
+                    foreach (var item in array)
+                    {
+                        lista.Add(item.ToString().ConvertDecimal());
+                    }
+
+                    this.Valor = lista.Sum();
+                    this.Entero = lista.Sum().ParteEntera();
+                    this.Decimal = lista.Sum().ParteDecimal();
+                    this.Max = lista.Max();
+                    this.Min = lista.Min();
+                    this.Media = lista.Average();
+                    this.ElementosProcesados = lista.Count();
+                }
+                else
+                {
+                    Console.WriteLine("No se puede procesar");
+                }
+            }
+            else
+            {
+                try
+                {
+                    decimal n1 = obj.ToString().ConvertDecimal();
+
+                    this.Valor = n1;
+                    this.Entero = n1.ParteEntera();
+                    this.Decimal = n1.ParteDecimal();
+                    this.Max = n1;
+                    this.Min = n1;
+                    this.Media = n1;
+                    this.ElementosProcesados = 1;
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            return true;
+        }
+    }
+
 }

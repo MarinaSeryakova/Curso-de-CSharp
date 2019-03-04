@@ -14,6 +14,21 @@ namespace Curso.CSharp.ConsoleApp6
 
         static void Main(string[] args)
         {
+            Prueba prueba = new Prueba();
+            prueba.Numero = 100;
+
+            IA interfaceA = prueba;
+            interfaceA.Numero = 200;
+
+            IB interfaceB = prueba;
+            interfaceB.Numero = 300;
+
+            Console.WriteLine(prueba.Numero);
+            Console.WriteLine(interfaceA.Numero);
+            Console.WriteLine(interfaceB.Numero);
+
+            Console.ReadKey();
+
             Demo demo = new Demo { Numero = 100, Nombre = "Borja" };
             demo.PintaNumero();
 
@@ -166,5 +181,25 @@ namespace Curso.CSharp.ConsoleApp6
         {
             Console.WriteLine("El número es {0}.", Numero);
         }
+    }
+
+
+    public interface IA
+    {
+        int Numero { get; set; }
+    }
+
+    public interface IB
+    {
+        int Numero { get; set; }
+    }
+
+    public class Prueba : IA, IB
+    {
+        int IA.Numero { get; set; }
+
+        int IB.Numero { get; set; }
+
+        public int Numero { get; set;}
     }
 }
