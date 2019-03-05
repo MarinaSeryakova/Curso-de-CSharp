@@ -11,7 +11,7 @@ namespace Curso.CSharp.ConsoleAppEjercicios
     {
         static void Main(string[] args)
         {
-            Objetos.Ejercicio1();
+            Herencia.Ejercicio2();
 
             Console.ReadKey();
         }
@@ -169,6 +169,8 @@ namespace Curso.CSharp.ConsoleAppEjercicios
         }
     }
 
+    //==================================================================
+
     public static class Interfaces
     {
         //Creamos la Interfaz IVehiculo 
@@ -288,6 +290,7 @@ namespace Curso.CSharp.ConsoleAppEjercicios
         }
     }
 
+    //==================================================================
 
     public static class Herencia
     {
@@ -311,6 +314,17 @@ namespace Curso.CSharp.ConsoleAppEjercicios
 
             Console.WriteLine(array.ToString());
         }
+
+        public static void Ejercicio2()
+        {
+            TrabajarFormas trabajar = new TrabajarFormas();
+
+            trabajar.CalcularArea(new Cuadrado() { Lado = 20 });
+            trabajar.CalcularArea(new Rectangulo() { Base = 20, Altura = 40 });
+            trabajar.CalcularArea(new Triangulo() { Base = 28.52M, Altura = 32.15M });
+            trabajar.CalcularArea(new Circulo() { Radio = 72 });
+
+        }
     }
     public class MiArrayList : ArrayList
     {
@@ -331,7 +345,75 @@ namespace Curso.CSharp.ConsoleAppEjercicios
             return "Numero de elementos " + this.Count.ToString("N0") + ".";
         }
     }
+    public class TrabajarFormas
+    {
+        public void CalcularArea<T>(T obj)
+        {
+            string tipo = obj.GetType().Name;
 
+            if (tipo == "Cuadrado" || tipo == "Rectangulo" || tipo == "Triangulo" || tipo == "Circulo")
+            {
+                Forma forma = obj as Forma;
+                forma.CalcularArea();
+
+                Console.WriteLine("El Área del {0} es {1} metros.", tipo, forma.Area.ToString("N2"));
+            }
+            else
+            {
+                Console.WriteLine("Error al procesar el área de {0}.", tipo);
+            }
+        }
+    }
+    public abstract class Forma
+    {
+        public decimal Area { get; set; }
+
+        public abstract void CalcularArea();
+    }
+
+    //Cuadrado -> Lado (decimal) // Lado x Lado
+    public class Cuadrado : Forma
+    {
+        public decimal Lado { get; set; }
+        public override void CalcularArea()
+        {
+            Area = Lado * Lado;
+        }
+    }
+
+    //Rectangulo -> Base y Altura (decimal) // Base x Altura
+    public class Rectangulo : Forma
+    {
+        public decimal Base { get; set; }
+        public decimal Altura { get; set; }
+        public override void CalcularArea()
+        {
+            Area = Base * Altura;
+        }
+    }
+
+    //Triangulo -> Base y Altura (decimal) // (Base x Altura) / 2
+    public class Triangulo : Forma
+    {
+        public decimal Base { get; set; }
+        public decimal Altura { get; set; }
+        public override void CalcularArea()
+        {
+            Area = (Base * Altura) / 2;
+        }
+    }
+
+    //Circulo -> Radio (decimal) // PI x Radio2
+    public class Circulo : Forma
+    {
+        public decimal Radio { get; set; }
+        public override void CalcularArea()
+        {
+            Area = (decimal)Math.PI * Radio * Radio;
+        }
+    }
+
+    //==================================================================
 
     public static class Objetos
     {
@@ -356,8 +438,6 @@ namespace Curso.CSharp.ConsoleAppEjercicios
             Console.WriteLine("Elementos {0}", info.ElementosProcesados);
         }
     }
-
-
     public static class ExtesionMetodos
     {
         public static decimal ParteEntera(this decimal valor)
@@ -382,7 +462,6 @@ namespace Curso.CSharp.ConsoleAppEjercicios
             else return 0;
         }
     }
-
     public class Info
     {
         //Equivalente a la suma de todos los elementos
