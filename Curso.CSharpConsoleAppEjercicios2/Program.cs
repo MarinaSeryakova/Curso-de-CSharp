@@ -10,6 +10,30 @@ namespace Curso.CSharpConsole.AppEjercicios2
     {
         static void Main(string[] args)
         {
+            //Cliente que han comprado más de 10 unidades
+            var q22 = DataLists.ListaClientes
+                .GroupJoin(DataLists.ListaPedidos
+                    .GroupJoin(DataLists.ListaLineasPedido,
+                        p => p.Id,
+                        l => l.IdPedido,
+                        (pedido, lineas) =>
+                            new {
+                                cliente = pedido.IdCliente,
+                                pedido = pedido.Id,
+                                cantidad = lineas.Sum(r => r.Cantidad)
+                            })
+                    .ToList(), 
+                c => c.Id, 
+                d => d.cliente,
+                (cliente, datos) => new {
+                    cliente.Id,
+                    cliente.Nombre,
+                    cantidad =  datos.Sum(r => r.cantidad) })
+                .Where(r => r.cantidad > 10)
+                .ToList();
+
+
+
             //Listado de Pedidos con el importe total
             var q21 = DataLists.ListaLineasPedido
                 .GroupBy(l => l.IdPedido)
